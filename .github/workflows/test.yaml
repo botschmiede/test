@@ -27,4 +27,4 @@ jobs:
       - name: Deploy to Vercel
         env:
           SUPABASE_URL: $SUPABASE_URL
-        run: vercel --token Bbr6eMVHYYi0ANczGwhONL3C -e SUPABASE_URL=https://dhzzceevbwtbmrjweeda.supabase.co --prod --confirm
+        run: vercel --token $VERCEL_TOKEN -e SUPABASE_URL=https://dhzzceevbwtbmrjweeda.supabase.co --prod --yes
