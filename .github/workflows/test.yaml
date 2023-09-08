@@ -1,0 +1,31 @@
+name: Deploy Site on Repo Creation
+
+on:
+  create:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '18' # or your preferred version
+
+      - name: Install and Build
+        run: |
+          npm install
+          npm run build
+
+      - name: Install Vercel CLI
+        run: npm i -g vercel
+
+      - name: Deploy to Vercel
+        env:
+          VERCEL_TOKEN: ${{ variables.VERCEL_TOKEN }}
+          SUPABASE_URL: ${{ variables.SUPABASE_URL }}
+        run: vercel --token $VERCEL_TOKEN --prod --confirm
