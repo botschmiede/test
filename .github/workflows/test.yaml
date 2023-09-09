@@ -1,19 +1,23 @@
 name: Deploy Site on Repo Creation
 
 on:
-  push: ##trigger sollte das hinzufügen von secrets über gh-api sein
+  workflow_dispatch:
+    inputs:
+      chatBotId:
+        description: 'ChatBot ID'
+        required: true
+      backendId:
+        description: 'Backend ID'
+        required: true
+      name:
+        description: 'ChatBot Name'
+        required: true
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Delay for 1:30 minute
-        run: sleep 90
-      # the following steps will run after the delay
-      - name: Next Step
-        run: echo "This runs after the delay."
-
-  
       - name: Checkout code
         uses: actions/checkout@v2
 
@@ -31,7 +35,6 @@ jobs:
             --env SUPABASE_PRIVATE_KEY=${{ secrets.SUPABASE_PRIVATE_KEY }}
 
 
-        #evtl noch vercel link notwendig
 
           
 
