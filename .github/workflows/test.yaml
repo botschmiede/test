@@ -7,13 +7,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Delay for 1 minute
-        run: sleep 60
+      - name: Delay for 1:30 minute
+        run: sleep 90
       # the following steps will run after the delay
       - name: Next Step
         run: echo "This runs after the delay."
 
-    steps:
+  
       - name: Checkout code
         uses: actions/checkout@v2
 
