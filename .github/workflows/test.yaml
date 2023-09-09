@@ -18,13 +18,8 @@ jobs:
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
         run: |
-          vercel --prod --yes --token $VERCEL_TOKEN --scope hadadadebadada
+          vercel --env OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }} --prod --yes --token $VERCEL_TOKEN --scope hadadadebadada
           
-      - name: Set environment variables on Vercel
-        env:
-          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-        run: |
-          vercel --env OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }} --token $VERCEL_TOKEN
 
 
 #SERPAPI_API_KEY=${{ secrets.SERPAPI_API_KEY }} --token $VERCEL_TOKEN
