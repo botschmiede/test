@@ -1,8 +1,8 @@
 name: Deploy Site on Repo Creation
 
 on:
-  push:
-
+  push: ##trigger sollte das hinzufügen von secrets über gh-api sein
+  timeout-minutes: 2  # This workflow times out after 10 minutes
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -23,6 +23,9 @@ jobs:
             --env SERPAPI_API_KEY=${{ secrets.SERPAPI_API_KEY }} \
             --env OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }} \
             --env SUPABASE_PRIVATE_KEY=${{ secrets.SUPABASE_PRIVATE_KEY }}
+
+
+        #evtl noch vercel link notwendig
 
           
 
