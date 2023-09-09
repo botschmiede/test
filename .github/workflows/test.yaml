@@ -2,10 +2,16 @@ name: Deploy Site on Repo Creation
 
 on:
   push: ##trigger sollte das hinzufügen von secrets über gh-api sein
-  timeout-minutes: 2  # This workflow times out after 10 minutes
 jobs:
   deploy:
     runs-on: ubuntu-latest
+
+    steps:
+      - name: Delay for 1 minute
+        run: sleep 60
+      # the following steps will run after the delay
+      - name: Next Step
+        run: echo "This runs after the delay."
 
     steps:
       - name: Checkout code
