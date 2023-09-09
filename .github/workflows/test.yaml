@@ -27,12 +27,8 @@ jobs:
       - name: Deploy to Vercel
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: |
-          vercel --prod -t $VERCEL_TOKEN --scope hadadadebadada --name test --yes
-          vercel env add SUPABASE_URL "${{ secrets.SUPABASE_URL }}" --token $VERCEL_TOKEN
-          vercel env add SUPABASE_SECRET "${{ secrets.SUPABASE_SECRET }}" --token $VERCEL_TOKEN
-          vercel env add OPENAI_API_KEY "${{ secrets.OPENAI_API_KEY }}" --token $VERCEL_TOKEN
-          vercel env add SUPABASE_PRIVATE_KEY "${{ secrets.SUPABASE_PRIVATE_KEY }}" --token $VERCEL_TOKEN
           vercel --token $VERCEL_TOKEN --prod --yes
 
           
