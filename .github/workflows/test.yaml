@@ -21,6 +21,27 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      # Set up Supabase CLI
+      - name: Setup Supabase CLI
+        uses: supabase/setup-cli@v1
+        with:
+          version: latest
+
+      - name: Authenticate Supabase CLI
+        env:
+          SUPABASE_PAT: ${{ secrets.SUPABASE_PAT }}
+        run: |
+          echo $SUPABASE_PAT | supabase login
+
+      - name: Fetch Supabase anon key
+        id: fetch_key
+        run: |
+           # Fetch the anon key and print it for debugging
+            ANON_KEY=$(supabase projects api-keys --project-ref ${{ inputs.backendId }} | grep 'anon' | sed 's/.*│ //')
+            echo "Extracted ANON_KEY: $ANON_KEY"
+            echo "ANON_KEY=$ANON_KEY" >> $GITHUB_ENV
+
+
       - name: Install Vercel CLI
         run: npm i -g vercel
 
@@ -32,10 +53,4 @@ jobs:
             --env SUPABASE_URL=${{ secrets.SUPABASE_URL }} \
             --env SERPAPI_API_KEY=${{ secrets.SERPAPI_API_KEY }} \
             --env OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }} \
-            --env SUPABASE_PRIVATE_KEY=${{ secrets.SUPABASE_PRIVATE_KEY }}
-
-
-
-          
-
-
+            --env SUPABASE_PRIVATE_KEY=$ANON_KEY

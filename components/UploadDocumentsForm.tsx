@@ -10,6 +10,8 @@ export function UploadDocumentsForm() {
 
   
   const ingest = async (e: FormEvent<HTMLFormElement>) => {
+    localStorage.setItem("supabaseUrl", process.env.SUPABASE_URL!);
+    localStorage.setItem("supabaseKey", process.env.SUPABASE_PRIVATE_KEY!);
     e.preventDefault();
     setIsLoading(true);
     const response = await fetch("/api/retrieval/ingest", {

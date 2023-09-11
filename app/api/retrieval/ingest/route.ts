@@ -25,9 +25,32 @@ export async function POST(req: NextRequest) {
   const body = await req.json();
   const text = body.text;
 
-  console.log("input: ", process.env.SUPABASE_URL!)
 
-  console.log("input: ", process.env.SUPABASE_PRIVATE_KEY!)
+  return NextResponse.json({
+    debug: {
+        SUPABASE_URL: process.env.SUPABASE_URL,
+        SUPABASE_PRIVATE_KEY: process.env.SUPABASE_PRIVATE_KEY
+    }
+}, { status: 200 })
+
+  if (process.env.NODE_ENV === 'production') {
+    return NextResponse.json({
+        debug: {
+            SUPABASE_URL: process.env.SUPABASE_URL,
+            SUPABASE_PRIVATE_KEY: process.env.SUPABASE_PRIVATE_KEY
+        }
+    }, { status: 200 });
+}
+
+
+  if (process.env.NODE_ENV === 'development') {
+    return NextResponse.json({
+        debug: {
+            SUPABASE_URL: process.env.SUPABASE_URL,
+            SUPABASE_PRIVATE_KEY: process.env.SUPABASE_PRIVATE_KEY
+        }
+    }, { status: 200 });
+}
 
   if (process.env.NEXT_PUBLIC_DEMO === "true") {
     return NextResponse.json(
@@ -48,6 +71,9 @@ export async function POST(req: NextRequest) {
     );
 
 
+
+
+
     const splitter = RecursiveCharacterTextSplitter.fromLanguage("markdown", {
       chunkSize: 256,
       chunkOverlap: 20,
@@ -65,10 +91,22 @@ export async function POST(req: NextRequest) {
       },
     );
 
-    return NextResponse.json({ ok: true }, { status: 200 });
-  } catch (e: any) {
-    return NextResponse.json({ error: e.message }, { status: 500 });
-  }
+    return NextResponse.json({
+      debug: {
+          SUPABASE_URL: process.env.SUPABASE_URL,
+          SUPABASE_PRIVATE_KEY: process.env.SUPABASE_PRIVATE_KEY
+      },
+      ok: true
+  }, { status: 200 });
+    } catch (e: any) {
+      return NextResponse.json({
+          error: e.message,
+          debug: {
+              SUPABASE_URL: process.env.SUPABASE_URL,
+              SUPABASE_PRIVATE_KEY: process.env.SUPABASE_PRIVATE_KEY
+          }
+      }, { status: 500 });
+    }
 }
 
 /* 
