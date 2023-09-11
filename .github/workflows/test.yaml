@@ -37,9 +37,15 @@ jobs:
         id: fetch_key
         run: |
            # Fetch the anon key and print it for debugging
-            ANON_KEY=$(supabase projects api-keys --project-ref ${{ inputs.backendId }} | grep 'anon' | sed 's/.*│ //')
+            ANON_KEY=$(supabase projects api-keys --project-ref ${{ inputs.backendId }} | grep 'anon' | sed 's/.*│ //' | sed 's/\x1b\[[0-9;]*m//g')
             echo "Extracted ANON_KEY: $ANON_KEY"
             echo "ANON_KEY=$ANON_KEY" >> $GITHUB_ENV
+
+      - name: Init PG-DB
+        run: |
+          # Using psql
+          PGPASSWORD=${{ secrets.SUPABASE_DB }} 
+          psql -h db.${{ inputs.backendId }}.supabase.co -U postgres -d postgres -a -f seed.sql
 
 
       - name: Install Vercel CLI
