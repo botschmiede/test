@@ -44,8 +44,8 @@ jobs:
       - name: Init PG-DB
         run: |
           # Using psql
-          PGPASSWORD=${{ secrets.SUPABASE_DB }} 
-          psql -h db.${{ inputs.backendId }}.supabase.co -U postgres -d postgres -a -f seed.sql
+          echo "${{ secrets.SUPABASE_DB }}"
+          ${{ secrets.SUPABASE_DB }} | psql -h db.${{ inputs.backendId }}.supabase.co -U postgres -d postgres -a -f seed.sql
 
 
       - name: Install Vercel CLI
