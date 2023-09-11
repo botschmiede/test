@@ -25,6 +25,10 @@ export async function POST(req: NextRequest) {
   const body = await req.json();
   const text = body.text;
 
+  console.log("input: ", process.env.SUPABASE_URL!)
+
+  console.log("input: ", process.env.SUPABASE_PRIVATE_KEY!)
+
   if (process.env.NEXT_PUBLIC_DEMO === "true") {
     return NextResponse.json(
       {
@@ -42,6 +46,7 @@ export async function POST(req: NextRequest) {
       process.env.SUPABASE_URL!,
       process.env.SUPABASE_PRIVATE_KEY!,
     );
+
 
     const splitter = RecursiveCharacterTextSplitter.fromLanguage("markdown", {
       chunkSize: 256,
