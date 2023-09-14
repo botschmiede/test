@@ -61,9 +61,7 @@ export function ChatWindow(props: {
     </div>
   );
 
-  useEffect(() => {
-    console.log("Selected template changed:", selectedTemplate);
-}, [selectedTemplate]);
+
 
 
   const { messages, input, setInput, handleInputChange, handleSubmit, isLoading: chatEndpointIsLoading, setMessages } =
@@ -96,12 +94,7 @@ export function ChatWindow(props: {
       const messagesWithUserReply = messages.concat({ id: messages.length.toString(), content: input, role: "user" });
       setMessages(messagesWithUserReply);
 //... rest of the sendMessage function
-      console.log("selectedTemplate in intermediate", selectedTemplate)
-      console.log("Request body:", {
-        messages: messagesWithUserReply,
-        template: selectedTemplate,
-        show_intermediate_steps: true
-      });
+
       const response = await fetch(endpoint, {
         method: "POST",
         body: JSON.stringify({
