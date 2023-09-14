@@ -23,16 +23,32 @@ export function ChatWindow(props: {
 }) {
 
   const templates = {
-    robot: { label: 'Robot' },
-    teacher: { label: 'Teacher' },
-    universityProfessor: { label: 'University Professor' },
+    robot: { label: 'Roboter' },
+    teacher: { label: 'Lehrer' },
+    universityProfessor: { label: 'Universitätsprofessor' },
     student: { label: 'Student' },
-    itConsultant: { label: 'IT Consultant' },
-    frontendDeveloper: { label: 'Frontend Developer' },
-    backendDeveloper: { label: 'Backend Developer' },
-    lecturer: { label: 'Lecturer' },
-    // Add more roles as needed
-  };
+    itConsultant: { label: 'IT-Berater' },
+    frontendDeveloper: { label: 'Frontend-Entwickler' },
+    backendDeveloper: { label: 'Backend-Entwickler' },
+    lecturer: { label: 'Dozent' },
+    lawyer: { label: 'Anwalt' },
+    doctor: { label: 'Arzt' },
+    engineer: { label: 'Ingenieur' },
+    biologist: { label: 'Biologe' },
+    geologist: { label: 'Geologe' },
+    historian: { label: 'Historiker' },
+    taxConsultant: { label: 'Steuerberater' },
+    businessConsultant: { label: 'Unternehmensberater' },
+    marketingConsultant: { label: 'Marketingberater' },
+    graphicsDesigner: { label: 'Grafikdesigner' },
+      uxuiExpert: { label: 'UX/UI Experte' },
+    architect: { label: 'Architekt' }
+/*     
+
+    uxuiExpert: { label: 'UX/UI Experte' },
+    architect: { label: 'Architekt' } */
+};
+
   
   const messageContainerRef = useRef<HTMLDivElement | null>(null);
 

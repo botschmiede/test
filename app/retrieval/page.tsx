@@ -108,7 +108,7 @@ export default function AgentsPage() {
       emptyStateComponent={InfoCard}
       showIngestForm={true}
       placeholder={
-        'Ich habe ein Gespür dafür, die richtigen Dokumente zu finden! Fragen Sie, "Was sind einige Methoden, um Abfragen in LangChain.js durchzuführen?"'
+        'Ich habe ein Gespür dafür, die richtigen Dokumente zu finden!'
       }
       emoji="🐶"
       titleText="Dana, der Dokumentenhund"

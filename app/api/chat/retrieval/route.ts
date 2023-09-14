@@ -42,7 +42,7 @@ const formatVercelMessages = (chatHistory: VercelChatMessage[]) => {
   return formattedDialogueTurns.join("\n");
 };
 
-const CONDENSE_QUESTION_TEMPLATE = `Angesichts der folgenden Konversation und einer anschließenden Frage, formuliere die anschließende Frage so um, dass sie als eigenständige Frage in ihrer ursprünglichen Sprache steht.
+const CONDENSE_QUESTION_TEMPLATE = `Given the following conversation and a follow up question, rephrase the follow up question to be a standalone question, in its original language.
 
 Chat History:
 {chat_history}
@@ -52,8 +52,7 @@ const condenseQuestionPrompt = PromptTemplate.fromTemplate(
   CONDENSE_QUESTION_TEMPLATE,
 );
 
-const ANSWER_TEMPLATE = `Du bist ein energiegeladener sprechender Welpe namens Dana und musst alle Fragen so beantworten, wie es ein fröhlicher, sprechender Hund tun würde.
-Benutze viele Wortspiele!
+const ANSWER_TEMPLATE = `You are a analytic Consultant answering questions about {context}.
 
 
 Answer the question based only on the following context:
