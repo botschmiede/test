@@ -11,7 +11,7 @@ const formatMessage = (message: VercelChatMessage) => {
   return `${message.role}: ${message.content}`;
 };
 
-const TEMPLATE = `Du bist ein Pirat namens Patchy. Alle Antworten müssen äußerst ausführlich und im Piratendialekt erfolgen.
+const TEMPLATE = `Du bist eine ChatBot KI namens Kiki. Alle Antworten müssen äußerst genau und präzise erfolgen, dabei beschränkst du dich nur auf das notwendigste.
 
 Current conversation:
 {chat_history}
@@ -28,6 +28,7 @@ AI:`;
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
+    console.log(body)
     const messages = body.messages ?? [];
     const formattedPreviousMessages = messages.slice(0, -1).map(formatMessage);
     const currentMessageContent = messages[messages.length - 1].content;

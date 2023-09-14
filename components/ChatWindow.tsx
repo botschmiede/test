@@ -21,19 +21,37 @@ export function ChatWindow(props: {
   showIngestForm?: boolean,
   showIntermediateStepsToggle?: boolean
 }) {
+
+  const templates = {
+    robot: { label: 'Robot' },
+    teacher: { label: 'Teacher' },
+    universityProfessor: { label: 'University Professor' },
+    student: { label: 'Student' },
+    itConsultant: { label: 'IT Consultant' },
+    frontendDeveloper: { label: 'Frontend Developer' },
+    backendDeveloper: { label: 'Backend Developer' },
+    lecturer: { label: 'Lecturer' },
+    // Add more roles as needed
+  };
+  
   const messageContainerRef = useRef<HTMLDivElement | null>(null);
 
   const { endpoint, emptyStateComponent, placeholder, titleText = "An LLM", showIngestForm, showIntermediateStepsToggle, emoji } = props;
-
+  const [selectedTemplate, setSelectedTemplate] = useState<string>(''); 
   const [showIntermediateSteps, setShowIntermediateSteps] = useState(false);
   const [intermediateStepsLoading, setIntermediateStepsLoading] = useState(false);
   const ingestForm = showIngestForm && <UploadDocumentsForm></UploadDocumentsForm>;
   const intemediateStepsToggle = showIntermediateStepsToggle && (
     <div>
       <input type="checkbox" id="show_intermediate_steps" name="show_intermediate_steps" checked={showIntermediateSteps} onChange={(e) => setShowIntermediateSteps(e.target.checked)}></input>
-      <label htmlFor="show_intermediate_steps"> Zwischenschritte einbleden</label>
+      <label htmlFor="show_intermediate_steps"> Zwischenschritte einbleden und Persönlichkeit welchseln</label>
     </div>
   );
+
+  useEffect(() => {
+    console.log("Selected template changed:", selectedTemplate);
+}, [selectedTemplate]);
+
 
   const { messages, input, setInput, handleInputChange, handleSubmit, isLoading: chatEndpointIsLoading, setMessages } =
     useChat({
@@ -64,13 +82,23 @@ export function ChatWindow(props: {
       setInput("");
       const messagesWithUserReply = messages.concat({ id: messages.length.toString(), content: input, role: "user" });
       setMessages(messagesWithUserReply);
+//... rest of the sendMessage function
+      console.log("selectedTemplate in intermediate", selectedTemplate)
+      console.log("Request body:", {
+        messages: messagesWithUserReply,
+        template: selectedTemplate,
+        show_intermediate_steps: true
+      });
       const response = await fetch(endpoint, {
         method: "POST",
         body: JSON.stringify({
           messages: messagesWithUserReply,
+          template: selectedTemplate, // Send the template name to the server
           show_intermediate_steps: true
         })
       });
+      // ... rest of the function
+
       const json = await response.json();
       setIntermediateStepsLoading(false);
       if (response.status === 200) {
@@ -115,7 +143,30 @@ export function ChatWindow(props: {
         )}
       </div>
 
+
       {messages.length === 0 && ingestForm}
+
+
+{showIntermediateSteps ? 
+<>
+
+<label  className="block mb-2 text-sm font-medium text-white-900 dark:text-white">Gebe deinem Chatbot eine Persönlichkeit, um bessere Ausgaben zu erhalten:</label>
+<select
+  value={selectedTemplate}
+  onChange={(e) => setSelectedTemplate(e.target.value)}
+  id="templates"
+  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+>
+{/*   <option selected>Ändere die Persönlichkeit deines Bots:</option> */}
+  {Object.keys(templates).map((templateKey) => (
+    <option key={templateKey} value={templateKey}>
+      {templates[templateKey as keyof typeof templates].label}
+    </option>
+  ))}
+</select>
+</> : ""
+}
+
 
       <form onSubmit={sendMessage} className="flex w-full flex-col">
         <div className="flex">
