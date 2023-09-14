@@ -42,10 +42,13 @@ jobs:
             echo "ANON_KEY=$ANON_KEY" >> $GITHUB_ENV
 
       - name: Init PG-DB
+        env:
+          PGPASSWORD: ${{ secrets.SUPABASE_DB }}
         run: |
           # Using psql
           echo "${{ secrets.SUPABASE_DB }}"
-          ${{ secrets.SUPABASE_DB }} | psql -h db.${{ inputs.backendId }}.supabase.co -U postgres -d postgres -a -f seed.sql
+          echo $PGPASSWORD
+          psql -h db.${{ inputs.backendId }}.supabase.co -U postgres -d postgres -a -f seed.sql
 
 
       - name: Install Vercel CLI
