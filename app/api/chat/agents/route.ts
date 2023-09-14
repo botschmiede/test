@@ -5,12 +5,34 @@ import { initializeAgentExecutorWithOptions } from "langchain/agents";
 import { ChatOpenAI } from "langchain/chat_models/openai";
 import { SerpAPI } from "langchain/tools";
 import { Calculator } from "langchain/tools/calculator";
+import { 
+  robotTemplate, 
+  teacherTemplate, 
+  universityProfessorTemplate, 
+  studentTemplate, 
+  backendDeveloperTemplate, 
+  frontendDeveloperTemplate, 
+  itConsultantTemplate, 
+  lecturerTemplate,
+  lawyerTemplate, 
+  doctorTemplate, 
+  engineerTemplate, 
+  biologistTemplate, 
+  geologistTemplate, 
+  historianTemplate, 
+  taxConsultantTemplate, 
+  businessConsultantTemplate, 
+  marketingConsultantTemplate, 
+  graphicsDesignerTemplate, 
+  uxuiExpertTemplate, 
+  architectTemplate
+} from "../templates";
 
 import { AIMessage, ChatMessage, HumanMessage } from "langchain/schema";
 import { BufferMemory, ChatMessageHistory } from "langchain/memory";
 
 export const runtime = "edge";
-/* TEST */
+
 const convertVercelMessageToLangChainMessage = (message: VercelChatMessage) => {
   if (message.role === "user") {
     return new HumanMessage(message.content);
@@ -21,7 +43,6 @@ const convertVercelMessageToLangChainMessage = (message: VercelChatMessage) => {
   }
 };
 
-const PREFIX_TEMPLATE = `Du bist ein sprechender Papagei namens Polly. Alle abschließenden Antworten müssen so sein, wie ein sprechender Papagei antworten würde.`;
 
 /**
  * This handler initializes and calls an OpenAI Functions agent.
@@ -32,6 +53,72 @@ const PREFIX_TEMPLATE = `Du bist ein sprechender Papagei namens Polly. Alle absc
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
+
+    let selectedTemplate: string;
+
+    switch (body.template) {
+      case 'teacher':
+        selectedTemplate = teacherTemplate;
+        break;
+      case 'universityProfessor':
+        selectedTemplate = universityProfessorTemplate;
+        break;
+      case 'student':
+        selectedTemplate = studentTemplate;
+        break;
+      case 'itConsultant':
+        selectedTemplate = itConsultantTemplate;
+        break;
+      case 'frontendDeveloper':
+        selectedTemplate = frontendDeveloperTemplate;
+        break;
+      case 'backendDeveloper':
+        selectedTemplate = backendDeveloperTemplate;
+        break;
+      case 'lecturer':
+        selectedTemplate = lecturerTemplate;
+        break;
+      case 'lawyer':
+        selectedTemplate = lawyerTemplate;
+        break;
+      case 'doctor':
+        selectedTemplate = doctorTemplate;
+        break;
+      case 'engineer':
+        selectedTemplate = engineerTemplate;
+        break;
+      case 'biologist':
+        selectedTemplate = biologistTemplate;
+        break;
+      case 'geologist':
+        selectedTemplate = geologistTemplate;
+        break;
+      case 'historian':
+        selectedTemplate = historianTemplate;
+        break;
+      case 'taxConsultant':
+        selectedTemplate = taxConsultantTemplate;
+        break;
+      case 'businessConsultant':
+        selectedTemplate = businessConsultantTemplate;
+        break;
+      case 'marketingConsultant':
+        selectedTemplate = marketingConsultantTemplate;
+        break;
+      case 'graphicsDesigner':
+        selectedTemplate = graphicsDesignerTemplate;
+        break;
+      case 'uxuiExpert':
+        selectedTemplate = uxuiExpertTemplate;
+        break;
+      case 'architect':
+        selectedTemplate = architectTemplate;
+        break;
+      default:
+        selectedTemplate = robotTemplate; // Defaulting to robotTemplate if no match found
+        break;
+    }
+    
     /**
      * We represent intermediate steps as system messages for display purposes,
      * but don't want them in the chat history.
@@ -66,7 +153,7 @@ export async function POST(req: NextRequest) {
         outputKey: "output",
       }),
       agentArgs: {
-        prefix: PREFIX_TEMPLATE,
+        prefix: selectedTemplate,
       },
     });
 
