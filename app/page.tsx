@@ -4,7 +4,7 @@ export default function Home() {
   const InfoCard = (
     <div className="p-4 md:p-8 rounded bg-[#25252d] w-full max-h-[85%] overflow-hidden">
       <h1 className="text-3xl md:text-4xl mb-4">
-        Der Piratenchat ! 🏴‍☠️
+      🤖 Robie erledigt deine Aufgabe mit Hilfe von deinen Dokumenten
       </h1>
      {/*  <ul>
         <li classN ame="text-l">
@@ -70,11 +70,16 @@ export default function Home() {
   );
   return (
     <ChatWindow
-      endpoint="api/chat"
-      emoji="🏴‍☠️"
-      titleText="Patchy der Chatty Pirat"
-      placeholder="Ich ein eine KI die sich als Pirat ausgibt! Stelle mir eine Frage über das Piratenleben!"
+      endpoint="api/chat/retrieval_agents"
       emptyStateComponent={InfoCard}
+      showIngestForm={true}
+      showIntermediateStepsToggle={true}
+      placeholder={
+        'Beep boop! Ich bin ein auf Abfragen spezialisierter Roboter! Fragen Sie, "Was sind einige Methoden, um Abfragen in LangChain.js durchzuführen?"'
+      }
+      emoji="🤖"
+      titleText="Robbie, der Abfrage-Roboter"
+      
     ></ChatWindow>
   );
 }
